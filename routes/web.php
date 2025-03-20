@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Main\IndexController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['namespace' => 'Main'], function () {
+    Route::get('/', [IndexController::class, '__invoke']);
 });
-
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
