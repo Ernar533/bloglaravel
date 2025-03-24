@@ -8,6 +8,7 @@ class indexController extends Controller
 {
     public function __invoke()
     {
-        return view('admin.categories.index',);
+        $categories = \App\Models\Category::all();
+        return view('admin.categories.index', compact('categories'));
     }
 }

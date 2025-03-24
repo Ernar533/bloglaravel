@@ -7,10 +7,26 @@
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="{{route('category.index')}}" class="nav-link active">
+                <a href="{{ route('admin.post.index') }}" class="nav-link active">
+                    <i class="nav-icon far fa-clipboard"></i>
+                    <p>
+                        Посты
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.category.index') }}" class="nav-link active">
                     <i class="nav-icon fas fa-th-list"></i>
                     <p>
                         Категории
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.tag.index') }}" class="nav-link active">
+                    <i class="nav-icon fas fa-tag"></i>
+                    <p>
+                        Тэги
                     </p>
                 </a>
             </li>
