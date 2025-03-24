@@ -8,6 +8,8 @@ class CreateController extends Controller
 {
     public function __invoke()
     {
-        return view('admin.post.create',);
+        $categories = \App\Models\Category::all();
+        $tags = \App\Models\Tag::all();
+        return view('admin.post.create', compact('categories', 'tags'));
     }
 }
