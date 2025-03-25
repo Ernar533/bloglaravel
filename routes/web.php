@@ -27,6 +27,14 @@ use App\Http\Controllers\Admin\Post\EditController as PostEditController;
 use App\Http\Controllers\Admin\Post\UpdateController as PostUpdateController;
 use App\Http\Controllers\Admin\Post\DeleteController as PostDeleteController;
 
+use App\Http\Controllers\Admin\User\IndexController as UserIndexController;
+use App\Http\Controllers\Admin\User\CreateController as UserCreateController;
+use App\Http\Controllers\Admin\User\StoreController as UserStoreController;
+use App\Http\Controllers\Admin\User\ShowController as UserShowController;
+use App\Http\Controllers\Admin\User\EditController as UserEditController;
+use App\Http\Controllers\Admin\User\UpdateController as UserUpdateController;
+use App\Http\Controllers\Admin\User\DeleteController as UserDeleteController;
+
 // Маршрут для главной страницы
 Route::group(['namespace' => 'Main'], function () {
     Route::get('/', [MainIndexController::class, '__invoke']);
@@ -67,6 +75,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/{tag}/edit', [TagEditController::class, '__invoke'])->name('admin.tag.edit');
         Route::patch('/{tag}', [TagUpdateController::class, '__invoke'])->name('admin.tag.update');
         Route::delete('/{tag}', [TagDeleteController::class, '__invoke'])->name('admin.tag.delete');
+    });
+
+    Route::group(['namespace' => 'User','prefix' =>"users"], function () {
+        Route::get('/', [UserIndexController::class, '__invoke'])->name('admin.user.index');
+        Route::get('/create', [UserCreateController::class, '__invoke'])->name('admin.user.create');
+        Route::post('/', [UserStoreController::class, '__invoke'])->name('admin.user.store');
+        Route::get('/{user}', [UserShowController::class, '__invoke'])->name('admin.user.show');
+        Route::get('/{user}/edit', [UserEditController::class, '__invoke'])->name('admin.user.edit');
+        Route::patch('/{user}', [UserUpdateController::class, '__invoke'])->name('admin.user.update');
+        Route::delete('/{user}', [UserDeleteController::class, '__invoke'])->name('admin.user.delete');
     });
 });
 // Аутентификация
