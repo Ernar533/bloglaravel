@@ -35,13 +35,16 @@ use App\Http\Controllers\Admin\User\EditController as UserEditController;
 use App\Http\Controllers\Admin\User\UpdateController as UserUpdateController;
 use App\Http\Controllers\Admin\User\DeleteController as UserDeleteController;
 
+// Подключаем контроллер для выхода
+use App\Http\Controllers\HomeController;
+
 // Маршрут для главной страницы
 Route::group(['namespace' => 'Main'], function () {
     Route::get('/', [MainIndexController::class, '__invoke']);
 });
 
 // Группа маршрутов для админки
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', [AdminIndexController::class, '__invoke']);
     });
@@ -66,7 +69,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::delete('/{category}', [DeleteIndexController::class, '__invoke'])->name('admin.category.delete');
     });
 
-
     Route::group(['namespace' => 'Tag','prefix' =>"tags"], function () {
         Route::get('/', [TagIndexController::class, '__invoke'])->name('admin.tag.index');
         Route::get('/create', [TagCreateController::class, '__invoke'])->name('admin.tag.create');
@@ -87,5 +89,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::delete('/{user}', [UserDeleteController::class, '__invoke'])->name('admin.user.delete');
     });
 });
-// Аутентификация
-Auth::routes();
+
+// ✅ Добавляем маршрут для выхода (logout) через POST
+Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
+
+// ✅ Оставляем стандартные маршруты аутентификации Laravel
+Auth::routes(['verify' => true]);
