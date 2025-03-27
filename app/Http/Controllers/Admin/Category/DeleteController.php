@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Tag;
+namespace App\Http\Controllers\Admin\Category;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Category\UpdateRequest;
