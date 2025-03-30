@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Personal\Main\indexController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Main\IndexController as MainIndexController;
 use App\Http\Controllers\Admin\Main\IndexController as AdminIndexController;
@@ -43,13 +44,25 @@ Route::group(['namespace' => 'Main'], function () {
     Route::get('/', [MainIndexController::class, '__invoke']);
 });
 
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'verified']], function () {
+    Route::group(['namespace' => 'Main'], function () {
+        Route::get('/', [IndexController::class, '__invoke'])->name('personal.main.index');
+    });
+}); // ❗ Закрыли группу Personal
+
 // Группа маршрутов для админки
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin', 'verified']], function () {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', [AdminIndexController::class, '__invoke']);
+        Route::get('/', [AdminIndexController::class, '__invoke'])->name('admin.main.index');
+    });
+    Route::group(['namespace' => 'Liked'], function () {
+        Route::get('/', [IndexController::class, '__invoke'])->name('admin.liked.index');
+    });
+    Route::group(['namespace' => 'Comment'], function () {
+        Route::get('/', [IndexController::class, '__invoke'])->name('admin.comment.index');
     });
 
-    Route::group(['namespace' => 'Post','prefix' =>"posts"], function () {
+    Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
         Route::get('/', [PostIndexController::class, '__invoke'])->name('admin.post.index');
         Route::get('/create', [PostCreateController::class, '__invoke'])->name('admin.post.create');
         Route::post('/', [PostStoreController::class, '__invoke'])->name('admin.post.store');
@@ -59,7 +72,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
         Route::delete('/{post}', [PostDeleteController::class, '__invoke'])->name('admin.post.delete');
     });
 
-    Route::group(['namespace' => 'Category','prefix' =>"categories"], function () {
+    Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
         Route::get('/', [CategoryIndexController::class, '__invoke'])->name('admin.category.index');
         Route::get('/create', [CreateIndexController::class, '__invoke'])->name('admin.category.create');
         Route::post('/', [StoreIndexController::class, '__invoke'])->name('admin.category.store');
@@ -69,7 +82,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
         Route::delete('/{category}', [DeleteIndexController::class, '__invoke'])->name('admin.category.delete');
     });
 
-    Route::group(['namespace' => 'Tag','prefix' =>"tags"], function () {
+    Route::group(['namespace' => 'Tag', 'prefix' => 'tags'], function () {
         Route::get('/', [TagIndexController::class, '__invoke'])->name('admin.tag.index');
         Route::get('/create', [TagCreateController::class, '__invoke'])->name('admin.tag.create');
         Route::post('/', [TagStoreController::class, '__invoke'])->name('admin.tag.store');
@@ -79,7 +92,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
         Route::delete('/{tag}', [TagDeleteController::class, '__invoke'])->name('admin.tag.delete');
     });
 
-    Route::group(['namespace' => 'User','prefix' =>"users"], function () {
+    Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
         Route::get('/', [UserIndexController::class, '__invoke'])->name('admin.user.index');
         Route::get('/create', [UserCreateController::class, '__invoke'])->name('admin.user.create');
         Route::post('/', [UserStoreController::class, '__invoke'])->name('admin.user.store');
