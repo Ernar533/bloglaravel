@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Liked\Main;
+namespace App\Http\Controllers\Personal\Liked;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -13,6 +13,8 @@ class indexController extends Controller
 {
     public function __invoke()
     {
-        return view('personal.liked.index');
+        $posts = auth()->user()->likedPosts;
+
+        return view('personal.liked.index', compact('posts'));
     }
 }

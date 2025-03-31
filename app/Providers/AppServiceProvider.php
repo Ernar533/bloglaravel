@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use App\Notifications\SendVerifyWithQueueNotfication;
@@ -25,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
             return (new SendVerifyWithQueueNotfication())->toMail($notifiable);
         });
+        Paginator::useBootstrapFive();
+        Paginator::useBootstrapFour();
     }
 }
