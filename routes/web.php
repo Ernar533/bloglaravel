@@ -55,9 +55,21 @@ Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
     Route::get('/{post}', [ShowController::class, '__invoke'])->name('post.show');
 
     Route::group(['namespace' => 'Comment', 'prefix' => '{post}/comments'], function () {
-        // Исправленный маршрут для добавления комментариев
         Route::post('/', [\App\Http\Controllers\Post\Comment\StoreController::class, '__invoke'])
             ->name('post.comment.store');
+    });
+
+    Route::group(['namespace' => 'Like', 'prefix' => '{post}/likes'], function () {
+        Route::post('/', [\App\Http\Controllers\Post\Like\StoreController::class, '__invoke'])
+            ->name('post.like.store');
+    });
+});
+Route::group(['namespace' => 'Category', 'prefix'=>'categories'], function () {
+    Route::get('/', [\App\Http\Controllers\Category\indexController::class, '__invoke'])->name('category.index');
+
+    Route::group(['namespace' => 'Post', 'prefix' => '{category}/posts'], function () {
+        Route::get('/', [\App\Http\Controllers\Category\Post\IndexController::class, '__invoke'])
+            ->name('category.post.index');
     });
 });
 
